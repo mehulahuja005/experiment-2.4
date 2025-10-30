@@ -1,0 +1,13 @@
+package view;
+
+import model.Student;
+import java.util.List;
+
+public class StudentView {
+    public void displayStudents(List<Student> students) {
+        System.out.println("\n=== Student List ===");
+        for (Student s : students) {
+            System.out.println(s);
+        }
+    }
+}

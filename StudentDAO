@@ -1,0 +1,35 @@
+package dao;
+
+import model.Student;
+import java.sql.*;
+import java.util.*;
+
+public class StudentDAO {
+    private static final String URL = "jdbc:mysql://localhost:3306/testdb";
+    private static final String USER = "root";
+    private static final String PASS = "yourpassword";
+
+    public void addStudent(Student s) throws Exception {
+        Connection con = DriverManager.getConnection(URL, USER, PASS);
+        PreparedStatement ps = con.prepareStatement("INSERT INTO students(name, age) VALUES(?, ?)");
+        ps.setString(1, s.getName());
+        ps.setInt(2, s.getAge());
+        ps.executeUpdate();
+        con.close();
+    }
+
+    public List<Student> getAllStudents() throws Exception {
+        Connection con = DriverManager.getConnection(URL, USER, PASS);
+        ResultSet rs = con.createStatement().executeQuery("SELECT * FROM students");
+        List<Student> list = new ArrayList<>();
+        while (rs.next()) {
+            Student s = new Student();
+            s.setId(rs.getInt("id"));
+            s.setName(rs.getString("name"));
+            s.setAge(rs.getInt("age"));
+            list.add(s);
+        }
+        con.close();
+        return list;
+    }
+}
